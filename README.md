@@ -94,3 +94,51 @@ curl -s -X POST http://localhost:8000/repositories \
 curl -s http://localhost:8000/jobs/<job-id> \
   -H "Authorization: Bearer <token>"
 ```
+
+## Milestone 2 API Examples
+
+```bash
+curl -s http://localhost:8000/repos/<repo-id>/overview \
+  -H "Authorization: Bearer <token>"
+```
+
+```bash
+curl -s http://localhost:8000/repos/<repo-id>/deps \
+  -H "Authorization: Bearer <token>"
+```
+
+```bash
+curl -s -X POST http://localhost:8000/repos/<repo-id>/search \
+  -H "Authorization: Bearer <token>" \
+  -H 'Content-Type: application/json' \
+  -d '{"query":"How does login work?","file_path":"app/api/routes/auth.py"}'
+```
+
+```bash
+curl -N -X POST http://localhost:8000/repos/<repo-id>/chat \
+  -H "Authorization: Bearer <token>" \
+  -H 'Content-Type: application/json' \
+  -d '{"message":"How does login work?","file_path":"app/api/routes/auth.py"}'
+```
+
+```bash
+curl -s http://localhost:8000/repos/<repo-id>/files/app%2Fapi%2Froutes%2Fauth.py/summary \
+  -H "Authorization: Bearer <token>"
+```
+
+```bash
+curl -s -X POST http://localhost:8000/explain \
+  -H "Authorization: Bearer <token>" \
+  -H 'Content-Type: application/json' \
+  -d '{"repo_id":1,"symbol_name":"login","file_path":"app/api/routes/auth.py"}'
+```
+
+```bash
+curl -s -X POST http://localhost:8000/repos/<repo-id>/bugs \
+  -H "Authorization: Bearer <token>"
+```
+
+```bash
+curl -s -X POST http://localhost:8000/repos/<repo-id>/security \
+  -H "Authorization: Bearer <token>"
+```
