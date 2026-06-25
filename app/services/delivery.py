@@ -30,6 +30,9 @@ from app.services.vector_store import ChromaVectorStore
 class DeliveryService:
     session: Session
     settings: Settings
+    vector_store: ChromaVectorStore | None = None
+    retrieval: RepositoryRetrievalEngine | None = None
+    intelligence: RepositoryIntelligenceService | None = None
 
     def __post_init__(self) -> None:
         self.vector_store = ChromaVectorStore(self.settings.chroma_persist_dir)
@@ -45,7 +48,7 @@ class DeliveryService:
         dependencies = self.intelligence.analyze_dependencies(repository.id).dependencies
         architecture = self.architecture_diagram(repository.id)
         docs = [
-            GeneratedDocumentRead(filename="README.md", content=self._readme(repository, overview, dependencies)),
+            GeneratedDocumentRead(filename="README.md", content=self._readme(repository, overview)),
             GeneratedDocumentRead(filename="Architecture.md", content=self._architecture_markdown(repository, architecture.diagram_source)),
             GeneratedDocumentRead(filename="API.md", content=self._api_markdown(repository, openapi_schema)),
             GeneratedDocumentRead(filename="Developer_Guide.md", content=self._developer_guide(repository, overview)),

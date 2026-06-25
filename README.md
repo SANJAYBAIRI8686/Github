@@ -1,6 +1,6 @@
 # GitHub Repo Analyzer
 
-Milestone 1 delivers the foundation for authenticated repository ingestion. The service clones a GitHub URL, filters noise, parses code into semantic chunks, embeds those chunks, and stores vector + relational metadata so later query phases can build on a stable backbone.
+Milestone 1 delivered authenticated repository ingestion. Milestone 2 added cited chat, semantic search, overview generation, dependency analysis, and static bug/security inspection. Milestone 3 adds the consumer UI, generated documentation, repository health scoring, onboarding lessons, and full-stack packaging.
 
 ## Folder Tree
 
@@ -142,3 +142,36 @@ curl -s -X POST http://localhost:8000/repos/<repo-id>/bugs \
 curl -s -X POST http://localhost:8000/repos/<repo-id>/security \
   -H "Authorization: Bearer <token>"
 ```
+
+## Milestone 3 API Examples
+
+```bash
+curl -s -X POST http://localhost:8000/repos/<repo-id>/docs/generate \
+  -H "Authorization: Bearer <token>"
+```
+
+```bash
+curl -s http://localhost:8000/repos/<repo-id>/docs/download \
+  -H "Authorization: Bearer <token>" -o repo-docs.zip
+```
+
+```bash
+curl -s http://localhost:8000/repos/<repo-id>/health \
+  -H "Authorization: Bearer <token>"
+```
+
+```bash
+curl -s http://localhost:8000/repos/<repo-id>/architecture \
+  -H "Authorization: Bearer <token>"
+```
+
+```bash
+curl -s http://localhost:8000/repos/<repo-id>/onboarding \
+  -H "Authorization: Bearer <token>"
+```
+
+## Deployment
+
+Use `docker compose up --build` to launch the full stack: API, worker, Redis, PostgreSQL, Chroma, and the Next.js frontend.
+
+The frontend lives in [frontend/](frontend) and uses typed API calls against the backend REST endpoints.

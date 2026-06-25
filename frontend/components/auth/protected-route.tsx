@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { getToken } from "@/lib/auth";
 import { Loading } from "@/components/ui/loading";
 
-export function ProtectedRoute({ children }: Readonly<{ children: React.ReactNode }>) {
+export function ProtectedRoute({ children }: React.PropsWithChildren) {
   const router = useRouter();
   const [ready, setReady] = useState(false);
 
