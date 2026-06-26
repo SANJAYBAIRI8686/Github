@@ -218,6 +218,75 @@ pip install -r requirements.txt
 ```bash
 cp .env.example .env
 ```
+Fill in your environment variables:
+
+* OpenAI API Key
+* Database URL
+* Redis URL
+* Secret Key
+
+---
+
+## Run the Project
+
+```bash
+docker compose up --build
+```
+
+or locally
+
+```bash
+uvicorn app.main:app --reload
+```
+
+---
+
+# 📸 Screenshots
+
+> Add screenshots or GIFs here.
+
+Examples:
+
+* Dashboard
+* Repository Upload
+* AI Chat
+* Semantic Search
+* Generated Documentation
+* Repository Health Report
+
+---
+
+# 🧪 Future Improvements
+
+* Multi-LLM Support
+* Ollama Integration
+* Claude Support
+* Gemini Support
+* GitLab Integration
+* Bitbucket Integration
+* VS Code Extension
+* CI/CD Analysis
+* Pull Request Reviews
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome.
+
+Feel free to open an issue or submit a pull request.
+
+---
+
+# 📄 License
+
+Licensed under the MIT License.
+
+---
+
+# ⭐ Support
+
+If you found this project helpful, consider giving it a ⭐ on GitHub.
 
 
 
