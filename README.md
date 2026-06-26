@@ -1,177 +1,224 @@
-# GitHub Repo Analyzer
+# 🚀 GitHub Repo Analyzer
 
-Milestone 1 delivered authenticated repository ingestion. Milestone 2 added cited chat, semantic search, overview generation, dependency analysis, and static bug/security inspection. Milestone 3 adds the consumer UI, generated documentation, repository health scoring, onboarding lessons, and full-stack packaging.
+> **An AI-powered code intelligence platform that understands GitHub repositories, answers questions about code, detects security issues, generates documentation, and helps developers onboard faster using Retrieval-Augmented Generation (RAG).**
 
-## Folder Tree
+---
+
+## 🌟 Overview
+
+GitHub Repo Analyzer transforms any GitHub repository into an intelligent knowledge base.
+
+Instead of manually browsing hundreds of files, developers can simply ask questions like:
+
+> *"How does authentication work?"*
+
+> *"Where is JWT implemented?"*
+
+> *"What are the project's dependencies?"*
+
+> *"Generate documentation for this repository."*
+
+The application clones a repository, analyzes its source code, creates vector embeddings, and enables natural language conversations with complete source citations.
+
+---
+
+## ✨ Features
+
+### 🤖 AI-Powered Code Understanding
+
+* Chat with any GitHub repository
+* Retrieval-Augmented Generation (RAG)
+* Semantic code search
+* Context-aware answers
+* Source citations for every response
+
+---
+
+### 📚 Repository Intelligence
+
+* Automatic repository overview
+* Architecture visualization
+* Dependency analysis
+* Code summarization
+* File explanations
+* Project onboarding guides
+
+---
+
+### 🔒 Security & Code Quality
+
+* Static bug detection
+* Security issue scanning
+* Repository health score
+* Code quality insights
+* Duplicate detection
+
+---
+
+### 📄 Documentation Generation
+
+Generate:
+
+* README
+* API documentation
+* Architecture summaries
+* Developer onboarding guides
+
+---
+
+### ⚡ Developer Experience
+
+* JWT Authentication
+* Background processing with Celery
+* Repository ingestion pipeline
+* Chroma Vector Database
+* Streaming AI responses
+* Docker support
+* REST API
+* Modern React frontend
+
+---
+
+# 🏗️ Architecture
+
+```text
+                GitHub Repository
+                        │
+                        ▼
+                 Repository Cloner
+                        │
+                        ▼
+                 Source Code Parser
+                        │
+                        ▼
+                Text Chunk Generator
+                        │
+                        ▼
+              OpenAI Embedding Model
+                        │
+                        ▼
+                 Chroma Vector Store
+                        │
+        ┌───────────────┴───────────────┐
+        ▼                               ▼
+ Semantic Search                 AI Chat Engine
+        │                               │
+        └───────────────┬───────────────┘
+                        ▼
+                FastAPI REST Backend
+                        │
+                        ▼
+             React + TypeScript Frontend
+```
+
+---
+
+# 🛠️ Tech Stack
+
+### Backend
+
+* Python
+* FastAPI
+* SQLAlchemy
+* Celery
+* Redis
+* PostgreSQL
+* ChromaDB
+
+### AI
+
+* OpenAI
+* LangChain
+* Retrieval-Augmented Generation (RAG)
+* Vector Embeddings
+
+### Frontend
+
+* React
+* TypeScript
+* Tailwind CSS
+* Next.js
+
+### DevOps
+
+* Docker
+* Docker Compose
+* Alembic
+* GitHub Actions (optional)
+
+---
+
+# 📂 Project Structure
 
 ```text
 app/
-  api/
-    deps.py
-    routes/
-      auth.py
-      health.py
-      jobs.py
-      repositories.py
-  core/
-    config.py
-    errors.py
-    logging.py
-    security.py
-  db/
-    base.py
-    session.py
-  models/
-    __init__.py
-    file_record.py
-    ingestion_job.py
-    repository.py
-    user.py
-  repositories/
-    base.py
-    file_repository.py
-    job_repository.py
-    repository_repository.py
-    user_repository.py
-  schemas/
-    auth.py
-    common.py
-    jobs.py
-    repositories.py
-    users.py
-  services/
-    chunking.py
-    embedding_provider.py
-    file_reader.py
-    git_service.py
-    ignore_rules.py
-    ingestion.py
-    vector_store.py
-  tasks/
-    celery_app.py
-    ingestion_tasks.py
-alembic/
-  env.py
-  script.py.mako
-  versions/
-    0001_initial.py
+ ├── api/
+ ├── core/
+ ├── db/
+ ├── models/
+ ├── repositories/
+ ├── schemas/
+ ├── services/
+ ├── tasks/
+ └── main.py
+
+frontend/
+
+docker-compose.yml
+
+README.md
 ```
 
-## Quick Start
+---
 
-1. Copy `.env.example` to `.env` and set `SECRET_KEY`.
-2. Install dependencies: `pip install -e .[test]`.
-3. Create the schema with Alembic: `alembic upgrade head`.
-4. Run the API: `uvicorn app.main:app --reload`.
-5. Start Celery with Redis: `celery -A app.tasks.celery_app.celery_app worker --loglevel=info`.
+# 🚀 Getting Started
 
-## Example Curl
+## Clone the Repository
 
 ```bash
-curl -s http://localhost:8000/health
+git clone https://github.com/yourusername/github-repo-analyzer.git
+
+cd github-repo-analyzer
 ```
+
+---
+
+## Create Virtual Environment
 
 ```bash
-curl -s -X POST http://localhost:8000/auth/register \
-  -H 'Content-Type: application/json' \
-  -d '{"email":"user@example.com","password":"Passw0rd!"}'
+python -m venv .venv
 ```
+
+Activate
+
+Windows
 
 ```bash
-curl -s -X POST http://localhost:8000/auth/login \
-  -H 'Content-Type: application/json' \
-  -d '{"email":"user@example.com","password":"Passw0rd!"}'
+.venv\Scripts\activate
 ```
+
+Linux / macOS
 
 ```bash
-curl -s -X POST http://localhost:8000/repositories \
-  -H "Authorization: Bearer <token>" \
-  -H 'Content-Type: application/json' \
-  -d '{"url":"https://github.com/owner/repo","branch":"main","shallow_clone":true}'
+source .venv/bin/activate
 ```
+
+---
+
+## Install Dependencies
 
 ```bash
-curl -s http://localhost:8000/jobs/<job-id> \
-  -H "Authorization: Bearer <token>"
+pip install -r requirements.txt
 ```
 
-## Milestone 2 API Examples
+---
+
+## Configure Environment
 
 ```bash
-curl -s http://localhost:8000/repos/<repo-id>/overview \
-  -H "Authorization: Bearer <token>"
+cp .env.example .env
 ```
 
-```bash
-curl -s http://localhost:8000/repos/<repo-id>/deps \
-  -H "Authorization: Bearer <token>"
-```
 
-```bash
-curl -s -X POST http://localhost:8000/repos/<repo-id>/search \
-  -H "Authorization: Bearer <token>" \
-  -H 'Content-Type: application/json' \
-  -d '{"query":"How does login work?","file_path":"app/api/routes/auth.py"}'
-```
 
-```bash
-curl -N -X POST http://localhost:8000/repos/<repo-id>/chat \
-  -H "Authorization: Bearer <token>" \
-  -H 'Content-Type: application/json' \
-  -d '{"message":"How does login work?","file_path":"app/api/routes/auth.py"}'
-```
-
-```bash
-curl -s http://localhost:8000/repos/<repo-id>/files/app%2Fapi%2Froutes%2Fauth.py/summary \
-  -H "Authorization: Bearer <token>"
-```
-
-```bash
-curl -s -X POST http://localhost:8000/explain \
-  -H "Authorization: Bearer <token>" \
-  -H 'Content-Type: application/json' \
-  -d '{"repo_id":1,"symbol_name":"login","file_path":"app/api/routes/auth.py"}'
-```
-
-```bash
-curl -s -X POST http://localhost:8000/repos/<repo-id>/bugs \
-  -H "Authorization: Bearer <token>"
-```
-
-```bash
-curl -s -X POST http://localhost:8000/repos/<repo-id>/security \
-  -H "Authorization: Bearer <token>"
-```
-
-## Milestone 3 API Examples
-
-```bash
-curl -s -X POST http://localhost:8000/repos/<repo-id>/docs/generate \
-  -H "Authorization: Bearer <token>"
-```
-
-```bash
-curl -s http://localhost:8000/repos/<repo-id>/docs/download \
-  -H "Authorization: Bearer <token>" -o repo-docs.zip
-```
-
-```bash
-curl -s http://localhost:8000/repos/<repo-id>/health \
-  -H "Authorization: Bearer <token>"
-```
-
-```bash
-curl -s http://localhost:8000/repos/<repo-id>/architecture \
-  -H "Authorization: Bearer <token>"
-```
-
-```bash
-curl -s http://localhost:8000/repos/<repo-id>/onboarding \
-  -H "Authorization: Bearer <token>"
-```
-
-## Deployment
-
-Use `docker compose up --build` to launch the full stack: API, worker, Redis, PostgreSQL, Chroma, and the Next.js frontend.
-
-The frontend lives in [frontend/](frontend) and uses typed API calls against the backend REST endpoints.
+It helps others discover the project and motivates future improvements.
